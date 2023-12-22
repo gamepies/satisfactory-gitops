@@ -2,6 +2,10 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ .Release.Name }}
+  annotations:
+    prometheus.io/path: /metrics
+    prometheus.io/port: '8080'
+    prometheus.io/scrape: 'true'
 spec:
   selector:
     matchLabels:
@@ -20,7 +24,7 @@ spec:
           - name: DEBUG
             value: "false"
           - name: MAXPLAYERS
-            value: "8"
+            value: "3"
           - name: PGID
             value: "1000"
           - name: PUID
