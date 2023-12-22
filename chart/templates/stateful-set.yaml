@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  serviceName: "{{ .Release.Name }}"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ .Release.Name }}
+        image: {{ .Values.image.name }}:{{ .Values.image.tag }}
+        env:
+          - name: DEBUG
+            value: "false"
+          - name: MAXPLAYERS
+            value: "8"
+          - name: PGID
+            value: "1000"
+          - name: PUID
+            value: "1000"
+          - name: SKIPUPDATE
+            value: "false"
+          - name: STEAMBETA
+            value: "false"
+        ports:
+        - containerPort: 15777
+          name: "query"
+          protocol: UDP
+        - containerPort: 15000
+          name: "beacon"
+          protocol: UDP
+        - containerPort: 7777
+          name: "game"
+          protocol: UDP
+        volumeMounts:
+        - name: satisfactory-data
+          mountPath: /config
+  volumeClaimTemplates:
+  - metadata:
+      name: satisfactory-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 20Gi

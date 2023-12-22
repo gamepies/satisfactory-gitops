@@ -1,0 +1,21 @@
+
+pod:
+  isTtyEnabled: true
+  isStdinEnabled: true
+  resources:
+    cpu:
+      limit: 4
+      request: 1
+    memory:
+      limit: 8192Mi
+      request: 512Mi
+
+service: 
+  port: 7777
+
+rest:
+  enabled: true
+
+image:
+  name: wolveix/satisfactory-server
+  tag: latest
