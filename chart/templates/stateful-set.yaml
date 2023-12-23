@@ -35,12 +35,6 @@ spec:
             value: "false"
           - name: STEAMBETA
             value: "false"
-          - name: SERVERQUERYPORT
-            value: {{ .Values.service.ports.query.external | quote }}
-          - name: SERVERBEACONPORT
-            value: {{ .Values.service.ports.beacon.external | quote }}
-          - name: SERVERGAMEPORT
-            value: {{ .Values.service.ports.game.external | quote }}
         ports:
         - containerPort: {{ .Values.service.ports.query.local }}
           name: "query"

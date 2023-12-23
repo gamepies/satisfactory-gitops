@@ -14,13 +14,13 @@ service:
   ports:
     beacon:
       external: 32501
-      local: 32501
+      local: 15000
     query:
       external: 32500
-      local: 32500
+      local: 15777
     game:
       external: 32502
-      local: 32502
+      local: 7777
 
 image:
   name: wolveix/satisfactory-server
