@@ -7,18 +7,18 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 15777
-    nodePort: 32500
+  - port: {{ .Values.service.ports.query.local }}
+    nodePort: {{ .Values.service.ports.query.external }}
     protocol: UDP
     name: "query"
     targetPort: "query"
-  - port: 15000
-    nodePort: 32501
+  - port: {{ .Values.service.ports.beacon.local }}
+    nodePort: {{ .Values.service.ports.beacon.external }}
     protocol: UDP
     name: "beacon"
     targetPort: "beacon"
-  - port: 7777
-    nodePort: 32502
+  - port: {{ .Values.service.ports.game.local }}
+    nodePort: {{ .Values.service.ports.game.external }}
     protocol: UDP
     name: "game"
     targetPort: "game"

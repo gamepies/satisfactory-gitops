@@ -20,6 +20,8 @@ spec:
       containers:
       - name: {{ .Release.Name }}
         image: {{ .Values.image.name }}:{{ .Values.image.tag }}
+        tty: {{ .Values.pod.isTtyEnabled }}
+        stdin: {{ .Values.pod.isStdinEnabled }}
         env:
           - name: DEBUG
             value: "false"
@@ -33,16 +35,29 @@ spec:
             value: "false"
           - name: STEAMBETA
             value: "false"
+          - name: SERVERQUERYPORT
+            value: {{ .Values.service.ports.query.external }}
+          - name: SERVERBEACONPORT
+            value: {{ .Values.service.ports.beacon.external }}
+          - name: SERVERGAMEPORT
+            value: {{ .Values.service.ports.game.external }}
         ports:
-        - containerPort: 15777
+        - containerPort: {{ .Values.service.ports.query.local }}
           name: "query"
           protocol: UDP
-        - containerPort: 15000
+        - containerPort: {{ .Values.service.ports.beacon.local }}
           name: "beacon"
           protocol: UDP
-        - containerPort: 7777
+        - containerPort: {{ .Values.service.ports.game.local }}
           name: "game"
           protocol: UDP
+        resources:
+          limits:
+            cpu: {{ .Values.pod.resources.cpu.limit }}
+            memory: {{ .Values.pod.resources.memory.limit }}
+          requests:
+            cpu: {{ .Values.pod.resources.cpu.request }}
+            memory: {{ .Values.pod.resources.memory.request }}
         volumeMounts:
         - name: satisfactory-data
           mountPath: /config
